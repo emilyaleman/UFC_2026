@@ -5,6 +5,7 @@ from DS_report_opt_obj import report_opt_obj
 from opt_obj import opt_obj
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
+import scipy
 plt.style.use(os.path.join(os.path.dirname(__file__), "uefc.mplstyle"))
 
 # You should not need to change the values within this function
@@ -157,3 +158,4 @@ if __name__ == "__main__":
                                                         mpay_end=mpay_end,
                                                         mpay_num=mpay_num,
                                                         show_plot=True)
+

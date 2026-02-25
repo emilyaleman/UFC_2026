@@ -16,10 +16,10 @@ def GetCD(UEFC, opt_vars, AR, S):
     CDi = GetCDi(UEFC, opt_vars, AR, S)
 
     # Fuselage drag model
-    CDfuse = GetCDfuse(UEFC, opt_vars, AR, S)
+    CDfuse = GetCDfuse.GetCDfuse(UEFC, opt_vars, AR, S)
 
     # Payload drag coefficient increment
-    CDpay = GetCDpay(UEFC, opt_vars, AR, S)
+    CDpay = GetCDpay.GetCDpay(UEFC, opt_vars, AR, S)
 
     # Total drag coefficient
     CD = CDfuse + CDp + CDi + CDpay
