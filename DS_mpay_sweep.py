@@ -147,7 +147,7 @@ if __name__ == "__main__":
     aircraft.e0    = 1.00    # Span efficiency for straight level flight
 
     # Wing bending and material properties
-    aircraft.dbmax   = 0.10    # tip displacement bending constraint
+    aircraft.dbmax   = [0.06, 0.08, 0.10]    # tip displacement bending constraint
     aircraft.rhofoam = 32.     # kg/m^3. high load foam
     aircraft.Efoam   = 19.3E6  # Pa.     high load foam
 
@@ -158,4 +158,3 @@ if __name__ == "__main__":
                                                         mpay_end=mpay_end,
                                                         mpay_num=mpay_num,
                                                         show_plot=True)
-
