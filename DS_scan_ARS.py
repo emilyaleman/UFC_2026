@@ -79,6 +79,11 @@ def scan_ARS(aircraft: UEFC,
 
     ARopt = ARvals[iAR_opt, iS_opt]
     Sopt  = Svals[iAR_opt, iS_opt]
+    Tmaxopt  = Tmaxvals[iAR_opt, iS_opt]
+    CLopt    = CLvals[iAR_opt, iS_opt]
+    dbopt    = dbvals[iAR_opt, iS_opt]
+    CDopt    = CDvals[iAR_opt, iS_opt]
+    pfopt    = pfvals[iAR_opt, iS_opt]
 
     # # Plotting commands
     if show_plots:
@@ -87,6 +92,11 @@ def scan_ARS(aircraft: UEFC,
         print("Objective Maximizing aircraft characteristics:")
         print("----------------------------------------------")
         report_opt_obj(aircraft, ARopt, Sopt)
+        print(f"Tmax_opt = {Tmaxopt:.2f} N")
+        print(f"CL_opt = {CLopt:.2f}")
+        print(f"db_opt = {dbopt:.2f}")
+        print(f"CD_opt = {CDopt:.2f}")
+        print(f"pf_opt = {pfopt:.2f}")
 
         # you may have to comment out these next 4 lines out if you are running from the command window
         # plt.ion()
@@ -164,34 +174,30 @@ if __name__ == "__main__":
     aircraft = UEFC()
 
     # Payload weight
-    aircraft.mpay_g   = np.nan     # payload weight in grams
+    aircraft.mpay_g   = 250     # payload weight in grams
 
     # Geometry parameters
     S  = np.nan                  # Wing area (m^2)
     AR = np.nan                  # Wing aspect ratio
-    aircraft.taper    = np.nan   # taper ratio
-    aircraft.dihedral = np.nan   # Wing dihedral (degrees)
-    aircraft.tau      = np.nan   # thickness-to-chord ratio
+    aircraft.taper    = .7   # taper ratio
+    aircraft.dihedral = 10   # Wing dihedral (degrees)
+    aircraft.tau      = .10   # thickness-to-chord ratio
 
     # Tail parameters
-    aircraft.Sh = np.nan # Wing area of horizontal tail (m^2)
-    aircraft.Sv = np.nan # Wing area of vertical tail (m^2)
+    aircraft.Sh = 0.04   # Wing area of horizontal tail (m^2)
+    aircraft.Sv = 0.03 # Wing area of vertical tail (m^2)
 
     # Fuselage parameters
-    aircraft.l_AR = np.nan  # Fuselage wingspan to length ratio (-)
+    aircraft.l_AR = 1.63  # Fuselage wingspan to length ratio (-)
 
     # Aerodynamic parameters
-    aircraft.CLdes    = np.nan    # maximum CL wing will be designed to fly at (in cruise)
-    aircraft.e0       = np.nan    # Span efficiency for straight level flight
+    aircraft.CLdes    = 0.75    # maximum CL wing will be designed to fly at (in cruise)
+    aircraft.e0       = 1    # Span efficiency for straight level flight
 
     # Wing bending and material properties
-    aircraft.dbmax    = np.nan  # tip displacement bending constraint
+    aircraft.dbmax    = .08  # tip displacement bending constraint
     aircraft.rhofoam  = 32.     # kg/m^3. high load foam
     aircraft.Efoam    = 19.3E6  # Pa.     high load foam
 
     num_division = 41
-    scan_ARS(aircraft, np.nan, np.nan, np.nan, np.nan, num_division, show_plots=True)
-
-
-
-
+    scan_ARS(aircraft, 5, 15, .1, .7, num_division, show_plots=True)

@@ -133,7 +133,7 @@ if __name__ == "__main__":
     AR = 9                      # Wing aspect ratio
     aircraft.taper    = 0.45    # taper ratio
     aircraft.dihedral = 10      # Wing dihedral (degrees)
-    aircraft.tau      = 0.10    # thickness-to-chord ratio
+    aircraft.tau      = 0.12    # thickness-to-chord ratio
 
     # Tail parameters
     aircraft.Sh = 0.04   # Wing area of horizontal tail (m^2)
