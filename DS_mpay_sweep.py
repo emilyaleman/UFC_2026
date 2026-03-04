@@ -147,7 +147,7 @@ if __name__ == "__main__":
     aircraft.e0    = 1.00    # Span efficiency for straight level flight
 
     # Wing bending and material properties
-    aircraft.dbmax   = .06    # tip displacement bending constraint
+    aircraft.dbmax   = .08    # tip displacement bending constraint
     aircraft.rhofoam = 32.     # kg/m^3. high load foam
     aircraft.Efoam   = 19.3E6  # Pa.     high load foam
 
@@ -158,3 +158,50 @@ if __name__ == "__main__":
                                                         mpay_end=mpay_end,
                                                         mpay_num=mpay_num,
                                                         show_plot=True)
+
+# -------------------------------
+# DS 2.1 Sweep delta/b max
+# -------------------------------
+plt.close()
+fig, ax = plt.subplots(3,2, figsize=(9,9))
+
+db_values = [0.06, 0.08, 0.10]
+
+for dbmax in db_values:
+
+    aircraft.dbmax = dbmax
+
+    mpay, obj, CL, CD, T_req, T_max, db, N = mpay_sweep(
+        aircraft,
+        AR, S,
+        mpay_start=mpay_start,
+        mpay_end=mpay_end,
+        mpay_num=mpay_num,
+        show_plot=False
+    )
+
+    label = f"δ/b max = {dbmax}"
+
+    ax[0,0].plot(mpay, obj, label=label)
+    ax[0,1].plot(mpay, db, label=label)
+    ax[1,0].plot(mpay, CL, label=label)
+    ax[1,1].plot(mpay, CD, label=label)
+    ax[2,0].plot(mpay, T_max, label=f"Tmax {label}")
+    ax[2,0].plot(mpay, T_req, linestyle='--', label=f"Treq {label}")
+    ax[2,1].plot(mpay, N, label=label)
+
+ax[0,0].set_ylabel("Velocity [m/s]")
+ax[0,1].set_ylabel("Tip bending δ/b")
+ax[1,0].set_ylabel("CL")
+ax[1,1].set_ylabel("CD")
+ax[2,0].set_ylabel("Thrust [N]")
+ax[2,1].set_ylabel("Load factor")
+
+ax[2,0].set_xlabel("Payload [g]")
+ax[2,1].set_xlabel("Payload [g]")
+
+for a in ax.flat:
+    a.grid(True)
+    a.legend(fontsize = 7)
+
+plt.show()
