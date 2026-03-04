@@ -13,7 +13,7 @@ def GetRequiredThrust(UEFC, opt_vars, AR, S):
     q = 0.5 * rho * V**2
 
     # Calculate required thrust from CD, q, S
-    T = T = q * S * CD
+    T = q * S * CD
 
     return T
 
