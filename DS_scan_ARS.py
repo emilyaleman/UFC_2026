@@ -79,11 +79,11 @@ def scan_ARS(aircraft: UEFC,
 
     ARopt = ARvals[iAR_opt, iS_opt]
     Sopt  = Svals[iAR_opt, iS_opt]
-    Tmaxopt  = Tmaxvals[iAR_opt, iS_opt]
-    CLopt    = CLvals[iAR_opt, iS_opt]
-    dbopt    = dbvals[iAR_opt, iS_opt]
-    CDopt    = CDvals[iAR_opt, iS_opt]
-    pfopt    = pfvals[iAR_opt, iS_opt]
+    #Tmaxopt  = Tmaxvals[iAR_opt, iS_opt]
+    #CLopt    = CLvals[iAR_opt, iS_opt]
+    #dbopt    = dbvals[iAR_opt, iS_opt]
+    #CDopt    = CDvals[iAR_opt, iS_opt]
+    #pfopt    = pfvals[iAR_opt, iS_opt]
 
     # # Plotting commands
     if show_plots:
@@ -92,11 +92,11 @@ def scan_ARS(aircraft: UEFC,
         print("Objective Maximizing aircraft characteristics:")
         print("----------------------------------------------")
         report_opt_obj(aircraft, ARopt, Sopt)
-        print(f"Tmax_opt = {Tmaxopt:.2f} N")
-        print(f"CL_opt = {CLopt:.2f}")
-        print(f"db_opt = {dbopt:.2f}")
-        print(f"CD_opt = {CDopt:.2f}")
-        print(f"pf_opt = {pfopt:.2f}")
+        #print(f"Tmax_opt = {Tmaxopt:.2f} N")
+        #print(f"CL_opt = {CLopt:.2f}")
+        #print(f"db_opt = {dbopt:.2f}")
+        #print(f"CD_opt = {CDopt:.2f}")
+        #print(f"pf_opt = {pfopt:.2f}")
 
         # you may have to comment out these next 4 lines out if you are running from the command window
         # plt.ion()
@@ -166,7 +166,7 @@ def scan_ARS(aircraft: UEFC,
 
         plt.show()
 
-    return obj_opt, ARopt, Sopt
+    return V, obj_opt, ARopt, Sopt
 
 if __name__ == "__main__":
 
@@ -179,9 +179,7 @@ if __name__ == "__main__":
     # Geometry parameters
     S  = np.nan                  # Wing area (m^2)
     AR = np.nan                  # Wing aspect ratio
-    aircraft.taper    = .7   # taper ratio
     aircraft.dihedral = 10   # Wing dihedral (degrees)
-    aircraft.tau      = .10   # thickness-to-chord ratio
 
     # Tail parameters
     aircraft.Sh = 0.04   # Wing area of horizontal tail (m^2)
@@ -200,4 +198,29 @@ if __name__ == "__main__":
     aircraft.Efoam    = 19.3E6  # Pa.     high load foam
 
     num_division = 41
-    scan_ARS(aircraft, 5, 15, .1, .7, num_division, show_plots=True)
+
+    tau = np.linspace(0.08, 0.12, 10)
+    lambda_ = np.linspace(0.5, 1.0, 10)
+    maxV = 0
+    minV = 100
+    for t in tau:
+        for l in lambda_:
+            aircraft.taper    = l   # taper ratio
+            aircraft.tau      = t   # thickness-to-chord ratio
+            v, o, a, s = scan_ARS(aircraft, 2, 8, .0, .6, num_division, show_plots=False)
+            if v > maxV:
+                maxV = v
+                tau_opt = t
+                lambda_opt = l
+            if v < minV:
+                minV = v
+                tau_min = t
+                lambda_min = l
+    print(f"Optimal tau: {tau_opt:.3f}, Optimal lambda: {lambda_opt:.3f}, Max V: {maxV:.2f} m/s")
+    aircraft.taper    = lambda_opt
+    aircraft.tau      = tau_opt
+    scan_ARS(aircraft, 2, 8, .0, .6, num_division, show_plots=True)
+    print(f"Minimum tau: {tau_min:.3f}, Minimum lambda: {lambda_min:.3f}, Min V: {minV:.2f} m/s")
+    aircraft.taper    = lambda_min
+    aircraft.tau      = tau_min
+    scan_ARS(aircraft, 2, 8, .0, .6, num_division, show_plots=True)
