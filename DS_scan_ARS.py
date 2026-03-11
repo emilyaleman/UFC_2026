@@ -166,7 +166,7 @@ def scan_ARS(aircraft: UEFC,
 
         plt.show()
 
-    return V, obj_opt, ARopt, Sopt
+    return obj_opt, ARopt, Sopt
 
 if __name__ == "__main__":
 
@@ -200,14 +200,14 @@ if __name__ == "__main__":
     num_division = 41
 
     tau = np.linspace(0.08, 0.12, 10)
-    lambda_ = np.linspace(0.5, 1.0, 10)
+    lambda_ = np.linspace(0.5, 1, 10)
     maxV = 0
     minV = 100
     for t in tau:
         for l in lambda_:
             aircraft.taper    = l   # taper ratio
             aircraft.tau      = t   # thickness-to-chord ratio
-            v, o, a, s = scan_ARS(aircraft, 2, 8, .0, .6, num_division, show_plots=False)
+            v, a, s = scan_ARS(aircraft, 2, 8, .0, .6, num_division, show_plots=False)
             if v > maxV:
                 maxV = v
                 tau_opt = t
