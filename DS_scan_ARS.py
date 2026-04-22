@@ -189,7 +189,7 @@ if __name__ == "__main__":
     aircraft.l_AR = 1.63  # Fuselage wingspan to length ratio (-)
 
     # Aerodynamic parameters
-    aircraft.CLdes    = 0.9    # maximum CL wing will be designed to fly at (in cruise)
+    aircraft.CLdes    = 0.73    # maximum CL wing will be designed to fly at (in cruise)
     aircraft.e0       = 1    # Span efficiency for straight level flight
 
     # Wing bending and material properties
@@ -199,28 +199,7 @@ if __name__ == "__main__":
 
     num_division = 41
 
-    tau = np.linspace(0.08, 0.12, 10)
-    lambda_ = np.linspace(0.5, 1, 10)
-    maxV = 0
-    minV = 100
-    for t in tau:
-        for l in lambda_:
-            aircraft.taper    = l   # taper ratio
-            aircraft.tau      = t   # thickness-to-chord ratio
-            v, a, s = scan_ARS(aircraft, 2, 8, .0, .6, num_division, show_plots=False)
-            if v > maxV:
-                maxV = v
-                tau_opt = t
-                lambda_opt = l
-            if v < minV:
-                minV = v
-                tau_min = t
-                lambda_min = l
-    print(f"Optimal tau: {tau_opt:.3f}, Optimal lambda: {lambda_opt:.3f}, Max V: {maxV:.2f} m/s")
-    aircraft.taper    = lambda_opt
-    aircraft.tau      = tau_opt
-    scan_ARS(aircraft, 2, 8, .0, .6, num_division, show_plots=True)
-    print(f"Minimum tau: {tau_min:.3f}, Minimum lambda: {lambda_min:.3f}, Min V: {minV:.2f} m/s")
-    aircraft.taper    = lambda_min
-    aircraft.tau      = tau_min
+
+    aircraft.taper    = .5  # taper ratio
+    aircraft.tau      = .12   # thickness-to-chord ratio
     scan_ARS(aircraft, 2, 8, .0, .6, num_division, show_plots=True)
