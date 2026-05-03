@@ -189,7 +189,7 @@ if __name__ == "__main__":
     aircraft.l_AR = 1.63  # Fuselage wingspan to length ratio (-)
 
     # Aerodynamic parameters
-    aircraft.CLdes    = 0.73    # maximum CL wing will be designed to fly at (in cruise)
+    aircraft.CLdes    = 0.72    # maximum CL wing will be designed to fly at (in cruise)
     aircraft.e0       = 1    # Span efficiency for straight level flight
 
     # Wing bending and material properties

@@ -18,13 +18,13 @@ import matplotlib.pyplot as plt
 root_angle = 3.13
 washout_diff = -5.0
 tip_angle = root_angle + washout_diff
-PV = UEFC_wing.UEFC_wing(b=.97273, croot=0.22754, ctip=0.11377, agroot=root_angle, agtip=tip_angle, dihedral=10.)
+PV = UEFC_wing.UEFC_wing(b=.7823, croot=0.1534, ctip=0.0767, agroot=root_angle, agtip=tip_angle, dihedral=10.)
 
 # Plot the wing geometry
 PV.plotgeom()
 
 # Solve the flow around the wing at a desired CL
-G, alpha = PV.solve(CL=0.73) # The solution is returned in G and the required angle of attack in alpha
+G, alpha = PV.solve(CL=0.72) # The solution is returned in G and the required angle of attack in alpha
 # G, alpha = PV.solve(alpha=3.0) # If you wanted to solve at a desired angle of attack (in degrees)
 
 # Get the aspect ratio and surface area
